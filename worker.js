@@ -13,7 +13,16 @@ async function generate_rand(i) { // recursively fetch randon values incase ther
   }
 
   try {
-    var rand_response = await fetch(new Request('https://csprng.xyz/v1/api?length=6'));
+    function makeid(length) {
+      var result           = '';
+      var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      var charactersLength = characters.length;
+      for ( var i = 0; i < length; i++ ) {
+         result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      }
+      return result;
+   }
+    var rand_response = makeid(5);
     var rand = await rand_response.json();
     var random_data = rand.Data;
     var exists = await WORKERS_KV_LINKS.get(random_data);
